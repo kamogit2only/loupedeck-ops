@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.sh": "shellscript",
+    "*.md": "markdown",
+    "*.yaml": "yaml"
+  },
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+  "git.autofetch": true
+}
