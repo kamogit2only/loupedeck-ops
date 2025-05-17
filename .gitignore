@@ -1,2 +1,6 @@
-.ldpk/
 .DS_Store
+*.log
+*.pyc
+__pycache__/
+apps/
+basic.lp5

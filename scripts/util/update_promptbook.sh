@@ -1,22 +1,34 @@
 #!/bin/bash
+# command: update_promptbook
+# description: promptbook.md を自動更新
 
-OUTFILE="promptbook.md"
 
-echo "# Loupedeck 操作一覧" > "$OUTFILE"
-echo "" >> "$OUTFILE"
+YAML_FILE="docs/promptbook.yaml"
+MD_FILE="promptbook.md"
 
-for dir in scripts/*/; do
-  category=$(basename "$dir")
-  echo "## $category" >> "$OUTFILE"
+# 初期化
+echo "# Loupedeck 操作一覧" > "$MD_FILE"
+echo "" >> "$MD_FILE"
 
-  for file in "$dir"/*.sh; do
-    [ -e "$file" ] || continue
-    cmd=$(basename "$file" .sh)
-    desc=$(grep -i '^# description:' "$file" | cut -d: -f2- | sed 's/^ *//')
-    echo "- $cmd: $desc" >> "$OUTFILE"
+# 各カテゴリ（例：menu, ops, util, ...）を順に処理
+yq eval 'keys | .[]' "$YAML_FILE" | while read -r category; do
+  echo "## $category" >> "$MD_FILE"
+
+  # カテゴリ内の配列の長さを取得（空配列対応のため）
+  count=$(yq eval ".${category} | length" "$YAML_FILE")
+
+  if [ "$count" -eq 0 ]; then
+    echo "" >> "$MD_FILE"
+    continue
+  fi
+
+  for i in $(seq 0 $((count - 1))); do
+    cmd=$(yq eval ".${category}[${i}].command" "$YAML_FILE")
+    desc=$(yq eval ".${category}[${i}].description" "$YAML_FILE")
+    echo "- $cmd: $desc" >> "$MD_FILE"
   done
 
-  echo "" >> "$OUTFILE"
+  echo "" >> "$MD_FILE"
 done
 
 echo "promptbook.md を更新しました。"

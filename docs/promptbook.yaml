@@ -1,0 +1,27 @@
+menu:
+  - command: start_dictation
+    description: 音声入力を開始
+  - command: stop_dictation
+    description: 音声入力を停止
+  - command: composition_tools
+    description: 作文ツールを表示
+  - command: compose
+    description: 作文メニューから作文を実行
+  - command: focus_mode
+    description: 集中モード切替
+  - command: toggle_dictation
+    description: 音声入力をトグルで開始／停止する
+ops:
+  - command: undo
+    description: 元に戻す
+  - command: redo
+    description: やり直す
+util:
+  - command: update_promptbook
+    description: promptbook.md を自動更新
+  - command: create_app_wrapper
+    description: .app ラッパーを生成する
+edit: []
+input: []
+media: []
+window: []
